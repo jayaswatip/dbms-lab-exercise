@@ -1,0 +1,121 @@
+Ex.No.12	PROCEDURES AND FUNCTIONS
+AIM
+
+To develop and execute PL/SQL procedures and functions to perform specific tasks, understand parameter passing, and demonstrate modular programming in Oracle PL/SQL.
+
+CREATE TABLE
+SQL> CREATE TABLE Student (
+  2    StudentID NUMBER(5),
+  3    Name VARCHAR2(50),
+  4    Marks NUMBER(5, 2)
+  5  );
+Table created.
+
+INSERTING VALUES INTO TABLE
+
+SQL> INSERT INTO Student (StudentID, Name, Marks) VALUES (1, 'John Doe', 85.5);
+1 row created.
+
+SQL> INSERT INTO Student (StudentID, Name, Marks) VALUES (2, 'Jane Smith', 92.0);
+1 row created.
+
+SQL> INSERT INTO Student (StudentID, Name, Marks) VALUES (3, 'Mike Johnson', 78.0);
+1 row created.
+
+DISPLAY TABLE
+
+SQL> SELECT * FROM Student;
+
+ STUDENTID NAME                                                    MARKS
+---------- -------------------------------------------------- ----------
+         1 John Doe                                                       85.5
+         2 Jane Smith                                                     92
+         3 Mike Johnson                                                78
+
+EXAMPLE1:
+SQL> DECLARE
+  2    studentID NUMBER := 4;
+  3    studentName VARCHAR2(50) := 'Emily Davis';
+  4    studentMarks NUMBER(5, 2) := 88.0;
+  5  BEGIN
+  6    INSERT INTO Student (StudentID, Name, Marks) VALUES (studentID, studentName, studentMarks);
+  7    DBMS_OUTPUT.PUT_LINE('Student inserted: ' || studentName);
+  8  END;
+  9  /
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE2:
+SQL> DECLARE
+  2    studentID NUMBER := 5;
+  3    studentMarks NUMBER(5, 2);
+  4  BEGIN
+  5    FOR i IN 1..5 LOOP
+  6      studentMarks := 70 + (i * 5);
+  7      INSERT INTO Student (StudentID, Name, Marks) VALUES (studentID, 'Student ' || i, studentMarks);
+  8      studentID := studentID + 1;
+  9    END LOOP;
+ 10    DBMS_OUTPUT.PUT_LINE('5 students inserted using FOR loop.');
+ 11  END;
+ 12  /
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE3:
+SQL> DECLARE
+  2    studentID NUMBER := 10;
+  3    studentMarks NUMBER(5, 2) := 65;
+  4  BEGIN
+  5    WHILE studentID <= 12 LOOP
+  6      INSERT INTO Student (StudentID, Name, Marks) VALUES (studentID, 'Student ' || studentID, studentMarks);
+  7      studentID := studentID + 1;
+  8      studentMarks := studentMarks + 5;
+  9    END LOOP;
+ 10    DBMS_OUTPUT.PUT_LINE('3 students inserted using WHILE loop.');
+ 11  END;
+ 12  /
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE4:
+SQL> DECLARE
+  2    studentID NUMBER := 13;
+  3    studentMarks NUMBER(5, 2) := 0; 
+  4  BEGIN
+  5    studentMarks := 100 / studentMarks; -- Division by zero error
+  6    DBMS_OUTPUT.PUT_LINE('Marks: ' || studentMarks);
+  7  EXCEPTION
+  8    WHEN ZERO_DIVIDE THEN
+  9      DBMS_OUTPUT.PUT_LINE('Error: Division by zero is not allowed.');
+ 10    WHEN OTHERS THEN
+ 11      DBMS_OUTPUT.PUT_LINE('An unexpected error occurred.');
+ 12  END;
+ 13  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM Student;
+
+ STUDENTID NAME                                                    MARKS
+---------- -------------------------------------------------- ----------
+         1    John Doe                                                         85.5
+         2    Jane Smith                                                      92
+         3    Mike Johnson                                                 78
+         4    Emily Davis                                                   88
+         5    Student 1                                                        75
+         6    Student 2                                                        80
+         7    Student 3                                                        85
+         8    Student 4                                                        90
+         9    Student 5                                                        95
+        10   Student 10                                                     65
+        11   Student 11                                                      70
+
+ STUDENTID NAME                                                    MARKS
+---------- -------------------------------------------------- ----------
+        12    Student 12                                                 75
+
+12 rows selected.
+
+RESULT 
+The PL/SQL procedure and function executed successfully, performing tasks such as data insertion and result calculation using parameters. This experiment showcased the use of modular coding and reusability in PL/SQL.
+
