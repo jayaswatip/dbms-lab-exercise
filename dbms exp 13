@@ -1,0 +1,316 @@
+Ex.No.13	COOKING RECIPE PORTAL
+AIM 
+
+	The aim of the Cooking Recipe Portal is to provide a user-friendly platform where individuals can easily access, share, and explore a wide variety of cooking recipes. It aims to enhance culinary experiences by allowing users to search for recipes based on ingredients, cuisine, or difficulty level, while also enabling them to contribute their own recipes
+CODING
+Index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+ <title>🍳CookingRecipePortal</title>  
+<linkhref="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+      body {
+            font-family: 'Quicksand', sans-serif;
+            background: #fffaf4;
+            margin: 0;
+            padding: 0; }
+      .header {
+            background: #f39c12;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 32px; }
+    .add-button {
+            display: block;
+            width: 220px;
+            margin: 30px auto 10px auto;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px; }
+.add-button:hover {
+            background: #27ae60; }
+recipe-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 40px; }
+.recipe-card {
+            background: white;
+            border: 1px solid #f0c987;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            position: relative; }
+ .recipe-title {
+            font-size: 22px;
+            color: #d35400;
+            margin-bottom: 10px;}
+.recipe-info {
+            margin: 8px 0;
+            color: #444;
+            font-size: 15px; }
+.action-buttons {
+            margin-top: 10px; }
+.action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px; }
+.action-btn.delete {
+            background-color: #e74c3c; }
+.footer {
+            text-align: center;
+            color: #aaa;
+            padding: 20px;
+            font-size: 14px; }
+    </style></head><body>
+<div class="header">🍳 Cooking Recipe Portal</div>
+<a href="add-recipe.html" class="add-button">➕ Add a New Recipe</a>
+<div class="recipe-container" id="recipeContainer"></div>
+<div class="footer">Made with 💛 by Jayaswati P</div>
+<script>
+        // Fetch Recipes from Backend
+        function fetchRecipes() {
+            fetch('http://localhost:3000/recipes')
+                .then(response => response.json())
+.then(data => {
+const container = document.getElementById('recipeContainer');
+container.innerHTML = '';
+data.forEach(recipe => {
+container.innerHTML += `
+<div class="recipe-card" data-id="${recipe.id}">
+<div class="recipe-title">${recipe.recipe_name}</div>
+<div class="recipe-info"><strong>Ingredients:</strong> ${recipe.ingredients}</div>
+<div class="recipe-info"><strong>Time:</strong> ${recipe.making_time} mins</div>
+<div class="recipe-info"><strong>Instructions:</strong> ${recipe.instructions}</div>
+<div class="action-buttons">
+<button class="action-btn update" onclick="updateRecipe(${recipe.id})">Update</button>
+<button class="action-btn delete" onclick="deleteRecipe(${recipe.id})">Delete</button>
+</div></div>` });})
+.catch(err => console.error('Error fetching recipes:', err)); }
+// Delete Recipe
+function deleteRecipe(id) {
+fetch(`http://localhost:3000/recipes/${id}`, {
+method: 'DELETE', })
+.then(response => response.json())
+.then(() => {
+alert('Recipe deleted successfully!');
+fetchRecipes();})
+.catch(err => console.error('Error deleting recipe:', err)); }
+// Update Recipe
+function updateRecipe(id) {
+const newRecipeName = prompt("Enter new recipe name:");
+const newIngredients = prompt("Enter new ingredients:");
+const newTime = prompt("Enter new making time (minutes):");
+            const newInstructions = prompt("Enter new instructions:");
+            if (newRecipeName && newIngredients && newTime && newInstructions) {
+                fetch(`http://localhost:3000/recipes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        recipe_name: newRecipeName,
+                        ingredients: newIngredients,
+                        making_time: newTime,
+                        instructions: newInstructions})})
+                .then(response => response.json())
+                .then(() => {
+                    alert('Recipe updated successfully!');
+                    fetchRecipes();})
+                .catch(err => console.error('Error updating recipe:', err));}  }
+// Initial Fetch
+        fetchRecipes();
+    </script></body></html>
+Add-recpe.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #fffaf4;
+            padding: 0;
+            margin: 0;}
+.header {
+            background-color: #f39c12;
+            color: white;
+            padding: 20px;
+            text-align: center; }
+.container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+.container h2 {
+            margin-bottom: 20px; }
+.container input, .container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px; }
+.container button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer; }
+.container button:hover {
+            background-color: #e67e22; }
+    </style></head><body>
+<div class="header">Add a New Recipe</div>
+<div class="container">
+        <h2>Recipe Submission Form</h2>
+        <form id="recipeForm">
+            <input type="text" name="recipe_name" placeholder="Recipe Name" required><br>
+            <xtarea name="ingredients" placeholder="Ingredients" required></textarea><br>
+            <input type="number" name="making_time" placeholder="Cooking Time (in minutes)" required><br>
+            <textarea name="instructions" placeholder="Instructions" required></textarea><br>
+            <button type="submit">Submit Recipe</button>
+        </form> </div><script>
+        document.getElementById('recipeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+const formData = new FormData(e.target);
+            const recipeData = Object.fromEntries(formData.entries());
+fetch('http://localhost:3000/add-recipe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(recipeData)})
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.href = 'submit-recipe.html?status=success'; })
+            .catch(err => {
+                console.error('Error:', err);
+                window.location.href = 'submit-recipe.html?status=error';
+            });});
+    </script></body></html>
+Submit-recipe.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Submission Status</title>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #fffaf4;
+            text-align: center;
+            padding: 50px; }
+.message {
+            font-size: 20px; }
+    </style></head><body>
+<div class="message" id="message"></div>
+    <a href="index.html">Back to Recipe List</a>
+<script>
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get('status');
+        const messageDiv = document.getElementById('message');
+if (status === 'success') {
+            messageDiv.textContent = "Recipe successfully submitted!";
+        } else {
+            messageDiv.textContent = "Error in submitting recipe."; }
+    </script></body></html>
+Server.js
+// Import required modules
+const express = require('express');
+const mysql = require('mysql2');
+const cors = require('cors');
+// Create an Express app
+const app = express();
+// Enable CORS
+app.use(cors());
+// Middleware for handling POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// MySQL database connection
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',           // Your MySQL username
+  password: 'swati@81105o', // Your MySQL password
+  database: 'RecipePortal'  // The database you created});
+// Connect to MySQL
+db.connect(err => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err.message);
+    return; }
+  console.log('Connected to MySQL database - RecipePortal');
+});
+// GET: Fetch all recipes
+app.get('/recipes', (req, res) => {
+  const query = `SELECT * FROM recipes`;
+  
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching recipes:', err.message);
+      return res.status(500).json({ error: err.message });}
+    res.json(results);
+  });});
+// POST: Add a new recipe
+app.post('/add-recipe', (req, res) => {
+  const { recipe_name, ingredients, making_time, instructions } = req.body;
+const query = `
+    INSERT INTO recipes (recipe_name, ingredients, making_time, instructions) 
+    VALUES (?, ?, ?, ?)
+db.query(query, [recipe_name, ingredients, making_time, instructions], (err, result) => {
+    if (err) {
+      console.error('Error adding recipe:', err.message);
+      return res.status(500).json({ error: err.message });}
+    console.log('Recipe added successfully!');
+    res.json({ message: 'Recipe added successfully!', recipeId: result.insertId });
+  });})
+// PUT: Update a recipe
+app.put('/recipes/:id', (req, res) => {
+  const { id } = req.params;
+  const { recipe_name, ingredients, making_time, instructions } = req.body;
+const query = `
+    UPDATE recipes 
+    SET recipe_name = ?, ingredients = ?, making_time = ?, instructions = ? 
+    WHERE id = ?
+  db.query(query, [recipe_name, ingredients, making_time, instructions, id], (err, result) => {
+    if (err) {
+      console.error('Error updating recipe:', err.message);
+      return res.status(500).json({ error: err.message });}
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Recipe not found' });}
+    console.log('Recipe updated successfully!');
+    res.json({ message: 'Recipe updated successfully!' });
+  });});
+// DELETE: Delete a recipe
+app.delete('/recipes/:id', (req, res) => {
+  const { id } = req.params;
+  const query = `DELETE FROM recipes WHERE id = ?`;
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error deleting recipe:', err.message);
+      return res.status(500).json({ error: err.message });
+if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Recipe not found' });}
+console.log('Recipe deleted successfully!');
+    res.json({ message: 'Recipe deleted successfully!' });
+  });});
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);});
+
+
+OUTPUT:
+ 
+RESULT:
+In conclusion, the Cooking Recipe Portal serves as an innovative platform that brings together cooking enthusiasts from diverse backgrounds to share and discover recipes. By offering features like easy navigation, recipe sharing, and community interaction, the portal aims to inspire creativity in the kitchen and make cooking more accessible. It creates an engaging space for users to explore new culinary ideas, improve their cooking skills, and connect with others who share a passion for food. Ultimately, the portal contributes to a more enjoyable and collaborative cooking experience.
+
