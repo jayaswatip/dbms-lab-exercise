@@ -1,0 +1,253 @@
+JOIN OPERATIONS
+
+AIM 
+To execute join operations 
+CREATING TABLE 
+EMPLOYEE TABLE 
+SQL&gt; create table jp(empid number(1),empfname varchar(24),emplname varchar(25),age
+int,email  varchar(100),phoneno varchar(15),address varchar(100)); 
+Table created. 
+SQL&gt; insert into jp values(1,’Ami&#39;,&#39;Swetha&#39;,22,&#39;my@gmail.com&#39;,&#39;9876543210&#39;,&#39;Chennai&#39;); 1
+row created. 
+SQL&gt; insert into jp values(2,&#39;Swati&#39;,&#39;tharuna&#39;,27,&#39;swati@gmail.com&#39;,&#39;9753124687&#39;,&#39;Mumbai&#39;);
+1 row created. 
+SQL&gt; insert into jp values(3,&#39;Mega&#39;,&#39;shruthi&#39;,25,&#39;mega@gmail.com&#39;,&#39;9182736450&#39;,&#39;Kolkata&#39;);
+1 row created. 
+SQL&gt; insert into jp
+values(4,&#39;Joshini&#39;,&#39;rithika&#39;,24,&#39;joshini@gmail.com&#39;,&#39;7654321788&#39;,&#39;Hyderabad&#39;); 1 row created. 
+SQL&gt; insert into jp
+values(5,&#39;Roshini&#39;,&#39;srinithi&#39;,24,&#39;roshini@gmail.com&#39;,&#39;9871234650&#39;,&#39;Banglore&#39;); 1 row created. 
+SQL&gt; select * from jp; 
+ EMPID EMPFNAME EMPLNAME AGE  EMAIL  PHONENO  ADDRESS 
+----------------------------------------------------------------------------------------------------------------
+ 1 Ami Swetha 22 my@gmail.com  9876543210  Chennai  
+ 2 Swati tharuna 27 swati@gmail.com  9753124687 Mumbai 
+3 Mega shruthi 25  mega@gmail.com  9182736450 Kolkata 
+ 4 Joshini rithika 24   joshini@gmail.com  7654321788  Hyderabad 
+
+ 5 Roshini srinithi 24  roshini@gmail.com  9871234650  Banglore 
+PROJECT TABLE 
+SQL&gt; create table project(projectid number(3),empid number(1),clientid
+number(1),projectname  varchar(20),projectsdate date); 
+Table created. 
+SQL&gt; desc project 
+Name Null? Type 
+----------------------------------------------------------------------------------------------------------------
+PROJECTID NUMBER(3)
+EMPID NUMBER(1) 
+CLIENTID NUMBER(1) 
+PROJECTNAME VARCHAR2(20) 
+PROJECTSDATE DATE 
+SQL&gt; insert into project values(111,1,3,&#39;project_alpha&#39;,TO_DATE(&#39;2025-02-26&#39;, &#39;YYYY-
+MM-DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(222,2,1,&#39;project_beta&#39;,TO_DATE(&#39;2024-02-23&#39;, &#39;YYYY-MM-
+DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(333,3,5,&#39;project_cloud&#39;,TO_DATE(&#39;2025-01-23&#39;, &#39;YYYY-
+MM-DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(444,4,2,&#39;project_compute&#39;,TO_DATE(&#39;2024-12-12&#39;, &#39;YYYY-
+MM-DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(555,5,4,&#39;project_service&#39;,TO_DATE(&#39;2024-11-11&#39;, &#39;YYYY-
+MM-DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(666,6,1,&#39;project_acc&#39;,TO_DATE(&#39;2024-11-10&#39;, &#39;YYYY-MM-
+DD&#39;)); 1 row created. 
+
+SQL&gt; insert into project values(777,7,2,&#39;project_cash&#39;,TO_DATE(&#39;2024-09-10&#39;, &#39;YYYY-MM-
+DD&#39;)); 1 row created. 
+SQL&gt; insert into project values(888,8,3,&#39;project_market&#39;,TO_DATE(&#39;2024-09-30&#39;, &#39;YYYY-
+MM-DD&#39;)); 1 row created. 
+SQL&gt; select * from project; 
+PROJECTID EMPID CLIENTID PROJECTNAME PROJECTSD 
+-------------------------------------------------------------------------------------
+ 111 1 3 project_alpha 26-FEB-25 
+ 222 2 1 project_beta 23-FEB-24 
+ 333 3 5 project_cloud 23-JAN-25 
+ 444 4 2 project_compute 12-DEC-24 
+ 555 5 4 project_service 11-NOV-24 
+ 666 6 1 project_acc 10-NOV-24 
+ 777 7 2 project_cash 10-SEP-24 
+ 888 8 3 project_market 30-SEP-24 
+8 rows selected. 
+INNER JOIN 
+SQL&gt; select p.projectid,p.projectname,j.empid,j.empfname,j.emplname from project p inner
+join jp j on  p.empid=j.empid; 
+PROJECTID PROJECTNAME EMPID EMPFNAME  EMPLNAME 
+ 111 project_alpha 1 Ami   Swetha 
+ 222 project_beta 2 Swati  tharuna 
+ 333 project_cloud 3 Mega  shruthi 
+PROJECTID PROJECTNAME EMPID EMPFNAME EMPLNAME 
+----------------------------------------------------------------------------------------------------------------
+
+ 444 project_compute 4 Joshini  Rithika 
+ 55 project_service 5 Rohini  srinithi 
+FULL JOIN 
+SQL&gt; select p.projectid,p.projectname,p.projectsdate,j.empid,j.empfname,j.emplname from
+project p full join jp  j on p.empid=j.empid; 
+
+PROJECTID PROJECTNAME PROJECTDATE EMPID EMPFNAME EMPLNAME 
+---------------------------------------------------------------------------------------------------------
+111 project_alpha 26-FEB-25 1 Ami   Swetha 
+ 222 project_beta 23-FEB-24 2 Swati  tharuna 
+ 333 project_cloud 23-JAN-25 3 Mega  shruthi 
+
+PROJECTID PROJECTNAME PROJECTDATE EMPID EMPFNAME EMPLNAME 
+---------------------------------------------------------------------------------------------------------
+ 444 project_compute 12-DEC-24 4 Joshini  rithika 
+ 555 project_service 11-NOV-24 5 roshini  srinithi 
+ 888 project_market 30-SEP-24 
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+----------------------------------------------------------------------------------------------------------------
+ 666 project_acc 10-NOV-24 
+ 777 project_cash 10-SEP-24 
+8 rows selected. 
+LEFT JOIN 
+SQL&gt; select p.projectid,p.projectname,p.projectsdate,j.empid,j.empfname,j.emplname from
+project p left join jp j on p.empid=j.empid; 
+
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+ 111 project_alpha 26-FEB-25 1 Ami   Swetha
+ 222 project_beta 23-FEB-24 2 Swati  tharuna 
+ 333 project_cloud 23-JAN-25 3 Mega  sruthi 
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+ 444 project_compute 12-DEC-24 4 Joshini  rithika 
+ 555 project_service 11-NOV-24 5 Roshini  srinithi 
+ 888 project_market 30-SEP-24 
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+ 666 project_acc 10-NOV-24 
+ 777 project_cash 10-SEP-24 
+8 rows selected. 
+RIGHT JOIN 
+SQL&gt; select p.projectid,p.projectname,p.projectsdate,j.empid,j.empfname,j.emplname from
+project p right join  jp j on p.empid=j.empid; 
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+ 111 project_alpha 26-FEB-25 1 Ami Swetha 
+ 222 project_beta 23-FEB-24 2 Swati  tharuna 
+ 333 project_cloud 23-JAN-25 3 Mega  shruthi 
+PROJECTID PROJECTNAME PROJECTSD EMPID EMPFNAME  EMPLNAME 
+ 444 project_compute 12-DEC-24 4 Joshini  rithika 
+ 555 project_service 11-NOV-24 5 Roshini  Srinithi
+SQL&gt; SELECT projectid, projectname, projectsdate, empid, empfname, emplname FROM
+project NATURAL JOIN jp;
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+
+----------------------------------------------------------------------------------------------------------------
+111 project_alpha        26-FEB-25          1 Ami Swetha
+222 project_beta         23-FEB-24          2 Swati tharuna
+333 project_cloud         23-JAN-25        3 Mega shruthi
+ 444 project_compute   12-DEC-24       4 Joshini rithika
+555 project_service      11-NOV-24        5 Roshini srinithi
+
+SQL&gt; SELECT p.projectid, p.projectname, p.projectsdate, j.empid, j.empfname, j.emplname
+FROM project p, jp j WHERE p.empid &gt; j.empid;
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+222 project_beta         23-FEB-24          1 Ami Swetha
+333 project_cloud        23-JAN-25          1 Ami Swetha
+444 project_compute      12-DEC-24     1 Ami Swetha
+
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+555 project_service      11-NOV-24          1 Ami Swetha
+ 666 project_acc          10-NOV-24          1 Ami Swetha
+777 project_cash         10-SEP-24          1 Ami Swetha
+
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+888 project_market       30-SEP-24          1 Ami Swetha
+ 333 project_cloud        23-JAN-25          2 Swati tharuna
+ 444 project_compute      12-DEC-24      2 Swati tharuna
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+555 project_service      11-NOV-24          2 Swati tharuna
+
+ 666 project_acc          10-NOV-24          2 Swati tharuna
+777 project_cash         10-SEP-24           2 Swati tharuna
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 888 project_market       30-SEP-24          2 Swati tharuna
+444 project_compute      12-DEC-24        3 Mega shruthi
+ 555 project_service      11-NOV-24          3 Mega shruthi
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 666 project_acc          10-NOV-24          3 Mega shruthi
+ 777 project_cash         10-SEP-24          3 Mega shruthi
+888 project_market       30-SEP-24          3 Mega shruthi
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 555 project_service      11-NOV-24          4 Joshini rithika
+  666 project_acc          10-NOV-24          4 Joshini rithika
+777 project_cash         10-SEP-24          4 Joshini rithika
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+888 project_market       30-SEP-24          4 Joshini rithika
+ 666 project_acc          10-NOV-24          5 Roshini srinithi
+ 777 project_cash         10-SEP-24          5 Roshini srinithi
+ 888 project_market       30-SEP-24          5 Roshini srinithi
+
+25 rows selected.
+SQL&gt; SELECT projectid, projectname, projectsdate, empid, empfname, emplname FROM
+project NATURAL JOIN jp;
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+111 project_alpha        26-FEB-25          1 Mythili Swetha
+222 project_beta         23-FEB-24          2 Swati tharuna
+333 project_cloud         23-JAN-25        3 Mega shruthi
+ 444 project_compute   12-DEC-24       4 Joshini rithika
+555 project_service      11-NOV-24        5 Roshini srinithi
+
+SQL&gt; SELECT p.projectid, p.projectname, p.projectsdate, j.empid, j.empfname, j.emplname
+FROM project p, jp j WHERE p.empid &gt; j.empid;
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+222 project_beta         23-FEB-24          1 Mythili Swetha
+333 project_cloud        23-JAN-25          1 Mythili Swetha
+444 project_compute      12-DEC-24     1 Mythili Swetha
+
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+555 project_service      11-NOV-24          1 Mythili Swetha
+ 666 project_acc          10-NOV-24          1 Mythili Swetha
+777 project_cash         10-SEP-24          1 Mythili Swetha
+
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+888 project_market       30-SEP-24          1 Mythili Swetha
+ 333 project_cloud        23-JAN-25          2 Swati tharuna
+ 444 project_compute      12-DEC-24      2 Swati tharuna
+
+ PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+555 project_service      11-NOV-24          2 Swati tharuna
+ 666 project_acc          10-NOV-24          2 Swati tharuna
+777 project_cash         10-SEP-24           2 Swati tharuna
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 888 project_market       30-SEP-24          2 Swati tharuna
+444 project_compute      12-DEC-24        3 Mega shruthi
+ 555 project_service      11-NOV-24          3 Mega shruthi
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 666 project_acc          10-NOV-24          3 Mega shruthi
+ 777 project_cash         10-SEP-24          3 Mega shruthi
+888 project_market       30-SEP-24          3 Mega shruthi
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+ 555 project_service      11-NOV-24          4 Joshini rithika
+  666 project_acc          10-NOV-24          4 Joshini rithika
+777 project_cash         10-SEP-24          4 Joshini rithika
+ 
+PROJECTID PROJECTNAME  PROJECTSD EMPID EMPFNAME EMPLNAME
+----------------------------------------------------------------------------------------------------------------
+888 project_market       30-SEP-24          4 Joshini rithika
+ 666 project_acc          10-NOV-24          5 Roshini srinithi
+
+ 777 project_cash         10-SEP-24          5 Roshini srinithi
+ 888 project_market       30-SEP-24          5 Roshini srinithi
+25 rows selected.
+SQL&gt;
