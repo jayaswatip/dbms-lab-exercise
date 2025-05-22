@@ -1,0 +1,276 @@
+Ex.No.8	SET OPERATIONS AND AGGEREGATE FUNCTIONS
+
+AIM 
+To perform various set operations, aggregate functions, group by and having clause on the relational database.
+ 
+CREATE TABLE
+SQL> CREATE TABLE student2 (
+  2      sid VARCHAR2(10),
+  3      sname VARCHAR2(50),
+  4      scity VARCHAR2(50)
+  5  );
+Table created.
+
+SQL> CREATE TABLE student3 (
+  2      sid VARCHAR2(10),
+  3      sname VARCHAR2(50),
+  4      scity VARCHAR2(50)
+  5  );
+Table created.
+
+SQL> CREATE TABLE employee1 (
+  2      name VARCHAR2(50),
+  3      dept VARCHAR2(20),
+  4      address VARCHAR2(50),
+  5      salary NUMBER(8)
+  6  );
+Table created.
+
+SQL> INSERT INTO student2 VALUES ('cse01', 'YAZHINI', 'Namakkal');
+1 row created.
+SQL> INSERT INTO student2 VALUES ('it01', 'Vani', 'Mumbai');
+1 row created.
+SQL> INSERT INTO student2 VALUES ('ece01', 'Seetha', 'Namakkal');
+1 row created.
+SQL> INSERT INTO student2 VALUES ('eee01', 'Moni', 'Erode');
+1 row created.
+SQL> INSERT INTO student2 VALUES ('cse02', 'Mowni', 'Mumbai');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('cs01', 'Varshini', 'Karur');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('it02', 'NILA', 'Mumbai');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('ece02', 'Jeeva', 'Chennai');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('eee01', 'YALINI', 'Mysore');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('eie', 'Anish', 'Cuddalore');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('cse01', 'YAZHINI', 'Namakkal');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('it01', 'Vani', 'Mumbai');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('eee01', 'Moni', 'Erode');
+1 row created.
+SQL> COMMIT;
+Commit complete.
+
+UNION KEYWORD
+SQL> SELECT sid, sname FROM student2
+  2  UNION
+  3  SELECT sid, sname FROM student3;
+
+SID        SNAME
+---------- --------------------------------------------------
+cs01       Varshini
+cse01      YAZHINI
+cse02      Mowni
+ece01      Seetha
+ece02      Jeeva
+eee01      Moni
+eee01      Yalini
+eie           Anish
+it01         Vani
+it02         NILA
+10 rows selected.
+
+UNION ALL KEYWORD
+SQL> SELECT sid, sname, scity FROM student2
+  2  UNION ALL
+  3  SELECT sid, sname, scity FROM student3;
+
+SID        SNAME      SCITY
+--------- -------------- ---------------------------
+cse01      YAZHINI      Namakkal
+it01         Vani              Mumbai
+ece01      Seetha         Namakkal
+
+SID        SNAME       SCITY
+--------- --------------- --------------------------
+eee01      Moni            Erode
+cse02      Mowni         Mumbai
+cs01        Varshini        Karur
+
+SID        SNAME        SCITY
+-------- ----------------- -------------------------
+it02         NILA              Mumbai
+ece02      Jeeva              Chennai
+eee01      Yalini             Mysore
+
+SID        SNAME       SCITY
+--------- -------------- ---------------------------
+eie           Anish            Cuddalore
+cse01      YAZHINI           Namakkal
+it01        Vani                 Mumbai
+
+SID        SNAME        SCITY
+--------- ---------------- -------------------------
+eee01       Moni               Erode
+13 rows selected.
+
+INTERSECT KEYWORD
+SQL> SELECT * FROM student2
+  2  INTERSECT
+  3  SELECT * FROM student3;
+
+SID        SNAME        SCITY
+--------- ------------- ----------------------------
+cse01      YAZHINI        Namakkal
+eee01      Moni           Erode
+it01         Vani               Mumbai
+
+MINUS KEYWORD
+SQL> -- In student2 but not in student3
+SQL> SELECT * FROM student2
+  2  MINUS
+  3  SELECT * FROM student3;
+
+SID        SNAME         SCITY
+--------- -------------- ---------------------------
+cse02      Mowni           Mumbai
+ece01      Seetha           Namakkal
+
+SQL> -- In student3 but not in student2
+SQL> SELECT * FROM student3
+  2  MINUS
+  3  SELECT * FROM student2;
+
+SID        SNAME         SCITY
+--------- --------------- --------------------------
+cs01       Varshini            Karur
+ece02      Jeeva               Chennai
+eee01      Yalini              Mysore
+
+SID        SNAME        SCITY
+--------  ---------------  -------------------------
+eie           Anish             Cuddalore
+it02          NILA            Mumbai
+
+AGGREGATE FUNCTIONS
+SQL> -- Insert employee data
+SQL> INSERT INTO employee1 VALUES ('YAZHINI', 'IT', 'Mumbai', 45000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('YALINI', 'CSE', 'Erode', 43000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('Akshay', 'ECE', 'Karur', 36000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('Akhil', 'EEE', 'Tiruppur', 47000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('NILA', 'IT', 'Mumbai', 50000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('Ragu', 'CSE', 'Erode', 43000);
+1 row created.
+SQL> INSERT INTO employee1 VALUES ('Raju', 'ECE', 'Mumbai', 50000);
+1 row created.
+SQL> COMMIT;
+Commit complete.
+
+MAX
+SQL> SELECT MAX(salary) FROM employee1;
+MAX(SALARY)
+-----------
+50000
+
+MIN
+SQL> SELECT MIN(salary) FROM employee1;
+MIN(SALARY)
+-----------
+36000
+
+AVG
+SQL> SELECT AVG(salary) FROM employee1;
+AVG(SALARY)
+-----------
+ 44857.1429
+
+SUM
+SQL> SELECT SUM(salary) FROM employee1;
+SUM(SALARY)
+-----------
+314000
+
+COUNT
+SQL> SELECT COUNT(name) AS no_of_employee FROM employee1;
+NO_OF_EMPLOYEE
+--------------
+ 7
+
+SECOND MAXIMUM SALARY
+SQL> SELECT MAX(salary) FROM employee1
+ 2  WHERE salary NOT IN (SELECT MAX(salary) FROM employee1);
+
+MAX(SALARY)
+-----------
+ 47000
+
+SECOND MINIMUM SALARY
+SQL> SELECT MIN(salary) FROM employee1
+2  WHERE salary NOT IN (SELECT MIN(salary) FROM employee1);
+MIN(SALARY)
+-----------
+43000
+
+AGGREGATE FUNCTIONS WITH GROUPBY AND HAVING:
+GROUP BY
+AVERAGE SALARY OF EACH DEPARTMENT
+SQL> SELECT dept, AVG(salary) AS avg_salary
+  2  FROM employee1
+  3  GROUP BY dept;
+
+DEPT                 AVG_SALARY
+-----------------    ----------
+IT                        47500
+EEE                    47000
+CSE                    43000
+ECE                    43000
+
+SQL> -- Only those departments where avg salary > 43000
+SQL> SELECT dept, SUM(salary) AS total_salary
+  2  FROM employee1
+  3  GROUP BY dept
+  4  HAVING AVG(salary) > 43000;
+
+DEPT                  TOTAL_SALARY
+--------------------  ------------
+IT                          95000
+EEE                       47000
+DISTINCT
+SQL> SELECT DISTINCT dept FROM employee1;
+DEPT
+--------------------
+IT
+EEE
+CSE
+ECE
+
+TO FIND THE EMPLOYEES WHO EARN SALARY HIGHER THAN THE AVG SALARY OF THEIR CITY
+SQL> SELECT name
+  2  FROM employee1
+  3  WHERE salary > ALL (
+  4  SELECT AVG(salary)
+  5   FROM employee1 e
+  6   WHERE e.address = employee1.address
+  7  );
+
+NAME
+--------------------------------------------------
+NILA
+Raju
+
+TO FIND THE NAME OF THE PERSONS WHO HAVE HIGHER SALARY THAN THE AVERAGE SALARY OF THEIR DEPARTMENT
+SQL> SELECT name
+  2  FROM employee1 e
+  3  WHERE salary > ALL (
+  4      SELECT AVG(salary)
+  5      FROM employee1
+  6      WHERE dept = e.dept
+  7  );
+
+NAME
+----------------------------------
+NILA
+Raju
+
+RESULT 
+	Thus various set opertions, aggregate functions, group by and having clause opertions are performed on the relational database.
+ 
