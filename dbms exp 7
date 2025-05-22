@@ -1,0 +1,233 @@
+Ex.No.7	CURSOR
+AIM
+  
+To implement cursors in DBMS for efficient row-by-row data retrieval and manipulation.
+
+CREATING A TABLES
+SQL> CREATE TABLE employee (
+  2      id     NUMBER(5),
+  3      name   VARCHAR2(50),
+  4      basic  NUMBER(8,2)
+  5  );
+
+Table created.
+
+SQL> CREATE TABLE customers (
+  2      id      NUMBER(5),
+  3      name    VARCHAR2(50),
+  4      address VARCHAR2(100)
+  5  );
+
+Table created.
+
+INSERTING VALUES INTO TABLE
+
+SQL> INSERT INTO employee VALUES (1, 'Swati', 3000);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (2, 'Anu', 4000);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (3, 'Moni', 3500);
+
+1 row created.
+
+SQL> INSERT INTO customers VALUES (101, 'Hari', 'New York');
+
+1 row created.
+
+SQL> INSERT INTO customers VALUES (102, 'Mithu', 'California');
+
+1 row created.
+
+SQL> INSERT INTO customers VALUES (103, 'Swati', 'Texas');
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+IMPLICIT CURSOR
+EXAMPLE-1
+
+SQL> DECLARE
+  2      total_rows NUMBER(2);
+  3  BEGIN
+  4      UPDATE employee SET basic = basic + 500;
+  5
+  6      IF SQL%NOTFOUND THEN
+  7          DBMS_OUTPUT.PUT_LINE('No employees updated.');
+  8      ELSIF SQL%FOUND THEN
+  9          total_rows := SQL%ROWCOUNT;
+ 10          DBMS_OUTPUT.PUT_LINE(total_rows || ' employees updated.');
+ 11      END IF;
+ 12  END;
+ 13  /
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE -2
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2      total_rows NUMBER(2);
+  3  BEGIN
+  4      UPDATE employee SET basic = basic + 500;
+  5
+  6      IF SQL%NOTFOUND THEN
+  7          DBMS_OUTPUT.PUT_LINE('No employees updated.');
+  8      ELSIF SQL%FOUND THEN
+  9          total_rows := SQL%ROWCOUNT;
+ 10          DBMS_OUTPUT.PUT_LINE(total_rows || ' employees updated.');
+ 11      END IF;
+ 12  END;
+ 13  /
+3 employees updated.
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE -3
+SQL> DECLARE
+  2      total_deleted NUMBER(2);
+  3  BEGIN
+  4      DELETE FROM employee WHERE basic < 3500;
+  5
+  6      IF SQL%NOTFOUND THEN
+  7          DBMS_OUTPUT.PUT_LINE('No employees deleted.');
+  8      ELSE
+  9          total_deleted := SQL%ROWCOUNT;
+ 10          DBMS_OUTPUT.PUT_LINE(total_deleted || ' employees deleted.');
+ 11      END IF;
+ 12  END;
+ 13  /
+No employees deleted.
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE-4
+SQL> DECLARE
+  2      total_inserted NUMBER(2);
+  3  BEGIN
+  4      INSERT INTO customers VALUES (104, 'Sara', 'Chicago');
+  5      INSERT INTO customers VALUES (105, 'Tom', 'Seattle');
+  6
+  7      total_inserted := SQL%ROWCOUNT;
+  8      DBMS_OUTPUT.PUT_LINE(total_inserted || ' customers inserted.');
+  9      COMMIT;
+ 10  END;
+ 11  /
+1 customers inserted.
+
+PL/SQL procedure successfully completed.
+
+EXPLICIT CURSOR
+EXAMPLE -1
+
+SQL> DECLARE
+  2      c_id    customers.id%TYPE;
+  3      c_name  customers.name%TYPE;
+  4      c_addr  customers.address%TYPE;
+  5
+  6      CURSOR c_customers IS
+  7          SELECT id, name, address FROM customers;
+  8  BEGIN
+  9      OPEN c_customers;
+ 10      LOOP
+ 11          FETCH c_customers INTO c_id, c_name, c_addr;
+ 12          EXIT WHEN c_customers%NOTFOUND;
+ 13
+ 14          DBMS_OUTPUT.PUT_LINE(c_id || ' ' || c_name || ' ' || c_addr);
+ 15      END LOOP;
+ 16      CLOSE c_customers;
+ 17  END;
+ 18  /
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE -2
+SQL> DECLARE
+  2      c_id    customers.id%TYPE;
+  3      c_name  customers.name%TYPE;
+  4      c_addr  customers.address%TYPE;
+  5
+  6      CURSOR c_customers IS
+  7          SELECT id, name, address FROM customers;
+  8  BEGIN
+  9      OPEN c_customers;
+ 10      LOOP
+ 11          FETCH c_customers INTO c_id, c_name, c_addr;
+ 12          EXIT WHEN c_customers%NOTFOUND;
+ 13
+ 14          DBMS_OUTPUT.PUT_LINE(c_id || ' ' || c_name || ' ' || c_addr);
+ 15      END LOOP;
+ 16      CLOSE c_customers;
+ 17  END;
+ 18  /
+101 Hari New York
+102 Mithu California
+103 Swati Texas
+
+PL/SQL procedure successfully completed.
+
+EXAMPLE -3
+
+SQL> DECLARE
+  2      e_id    employee.id%TYPE;
+  3      e_name  employee.name%TYPE;
+  4      e_basic employee.basic%TYPE;
+  5
+  6      CURSOR emp_cursor IS
+  7          SELECT id, name, basic FROM employee WHERE basic > 3500;
+  8
+  9  BEGIN
+ 10      OPEN emp_cursor;
+ 11      LOOP
+ 12          FETCH emp_cursor INTO e_id, e_name, e_basic;
+ 13          EXIT WHEN emp_cursor%NOTFOUND;
+ 14
+ 15          DBMS_OUTPUT.PUT_LINE('ID: ' || e_id || ', Name: ' || e_name || ', Basic: ' || e_basic);
+ 16      END LOOP;
+ 17      CLOSE emp_cursor;
+ 18  END;
+ 19  /
+ID: 1, Name: Swati, Basic: 4000
+ID: 2, Name: Anu, Basic: 5000
+ID: 3, Name: Moni, Basic: 4500
+
+PL/SQL procedure successfully completed.
+EXAMPLE -4 
+
+SQL> DECLARE
+  2      c_id    customers.id%TYPE;
+  3      c_name  customers.name%TYPE;
+  4      c_addr  customers.address%TYPE;
+  5
+  6      CURSOR texas_customers IS
+  7          SELECT id, name, address FROM customers WHERE address = 'Texas';
+  8
+  9  BEGIN
+ 10      OPEN texas_customers;
+ 11      LOOP
+ 12          FETCH texas_customers INTO c_id, c_name, c_addr;
+ 13          EXIT WHEN texas_customers%NOTFOUND;
+ 14
+ 15          DBMS_OUTPUT.PUT_LINE('Customer: ' || c_name || ', Address: ' || c_addr);
+ 16      END LOOP;
+ 17      CLOSE texas_customers;
+ 18  END;
+ 19  /
+Customer: Swati, Address: Texas
+
+PL/SQL procedure successfully completed.
+
+
+
+RESULT
+Achieved controlled and optimized data processing using cursors, enabling complex operations with improved precision.
+
+
+  
+
+ 
