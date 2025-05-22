@@ -1,0 +1,140 @@
+Ex.No.3	NESTED QUERIES
+
+AIM
+To execute nested queries
+
+
+CREATING THE TABLE
+SQL> create table pen(
+2	Name varchar(20),
+3	ID int primary key,
+4	English int,
+5	maths int,
+6	Physics int,
+7	Total int
+8	);
+Table created.
+
+
+INSERTING VALUES TO THE TABLE
+SQL> insert into
+pen(Name,ID,English,Maths,Physics,Total)values('Swati',104,98,54,65,200); 1 row created.
+SQL> insert into
+pen(Name,ID,English,Maths,Physics,Total)values('Sri',105,98,34,66,140); 1 row created.
+SQL> insert into
+pen(Name,ID,English,Maths,Physics,Total)values('Diha',106,96,87,90,190); 1 row created.
+ 
+SQL> insert into
+pen(Name,ID,English,Maths,Physics,Total)values('Yazh',107,89,98,76,200); 1 row created.
+SQL> insert into
+pen(Name,ID,English,Maths,Physics,Total)values('Sarvi',108,90,89,79,240); 1 row created.
+
+SQL> select * from pen;
+NAME	ID	ENGLISH  MATHS	PHYSICS  TOTAL
+
+
+Swati	104	98	54	65	200
+Sri	105	98	34	66	140
+Diha	106	96	87	90	190
+Yazh	107	89	98	76	200
+Sarvi	108	90	89	79	240
+
+
+INDEPENDENT SUB-QUERY
+SQL> select ID,name from pen where ID in (select ID from pen where total>199
+
+);	
+ID	
+NAME
+	104	Swati
+	107	Yazh
+	108	Sarvi
+
+
+SQL> select ID,Name from pen where ID in(select ID from pen where physics>70);
+ 
+ID	NAME
+
+106	Diha
+107	Yazh
+108	Sarvi
+SQL> select name,Total from pen where ID in(select ID from pen where ID>104)
+
+;
+NAME		
+TOTAL
+Sri		140
+Diha		190
+Yazh		200
+Sarvi		240
+
+
+SQL> select ID,Name,English,Physics from pen where ID in (select ID from pen where maths>80);
+ID	NAME	ENGLISH	PHYSICS
+
+
+106	Diha	96	90
+107	Yazh	89	76
+108	Sarvi	90	79
+
+
+SQL> select ID,Name,total from pen where ID in (select ID from pen where eng lish>90);
+ 
+ID	NAME	TOTAL
+
+
+104	Swati	200
+105	Sri	140
+106	Diha	190
+
+
+CO-RELATED SUB-QUERY
+SQL> select name from pen p where maths=(select maths from pen o where p.ID=
+o.ID and maths>80); NAME
+
+Diha Yazh
+Sarvi
+
+
+SQL> select ID,Name,Physics from pen p where total=(select total from pen o where p.ID=o.ID and total>150);
+
+ID	NAME	PHYSICS
+104
+Swati	65
+106	Diha	90
+107	Yazh	76
+108	Sarvi	79
+
+
+SQL> select ID,Name,English,Maths from pen p where ID=(select ID from pen o where p.ID=o.ID and physics>70);
+ 
+ID		NAME		ENGLISH	MATHS
+106		Diha		 
+96	87
+107		Yazh		89	98
+108		Sarvi		90	89
+
+
+SQL> select ID,Name,Total from pen p where ID=(select ID from pen o where p.ID=o.ID and english>95);
+
+
+
+ID	NAME		TOTAL
+104	Swati		200
+105	Sri		140
+106	Diha		190
+
+
+SQL> select ID,Name,English,Maths,Physics from pen p where ID=(select ID fro m pen o where p.ID=o.ID and total>150);
+ID	NAME	ENGLISH MATHS PHYSICS
+
+
+104	Swati	98	54	65
+106	Diha	96	87	90
+107	Yazh	89	98	76
+108	Sarvi	90	89	79
+ 
+
+
+RESULT
+Thus nested queries were executed.
