@@ -1,0 +1,203 @@
+Ex.No.10	DATE AND TIME FUNCTION
+AIM
+
+To perform SQL date and time functions. 
+
+CREATE TABLE
+SQL> CREATE TABLE emp (
+  2      id NUMBER(4),
+  3      name VARCHAR2(20),
+  4      salary NUMBER(5),
+  5      hire_date DATE
+  6  );
+Table created.
+SQL> CREATE TABLE event (
+  2      eid NUMBER(4),
+  3      ename VARCHAR2(20),
+  4      start_time TIMESTAMP
+  5  );
+Table created.
+
+INSERT VALUES
+SQL> INSERT INTO emp VALUES (1001, 'Swati', 40000, TO_DATE('12-DEC-2020', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1002, 'Shreyaa', 50000, TO_DATE('23-JUL-2020', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1003, 'Dharshini', 55000, TO_DATE('10-OCT-2021', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1004, 'Yazhini', 42000, TO_DATE('11-OCT-2021', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1005, 'Prathisha', 35000, TO_DATE('15-MAR-2021', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1006, 'Latha', 43000, TO_DATE('02-NOV-2022', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1007, 'Nila', 45000, TO_DATE('23-JUL-2020', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1008, 'Priya', 55000, TO_DATE('10-OCT-2000', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1009, 'Mythili', 48000, TO_DATE('15-JAN-2015', 'DD-MON-YYYY'));
+1 row created.
+SQL> INSERT INTO emp VALUES (1010, 'Anu', 47000, TO_DATE('01-FEB-2017', 'DD-MON-YYYY'));
+1 row created.
+
+ADDING EVENT:
+SQL> INSERT INTO event VALUES (1001, 'Paper Presentation', TO_TIMESTAMP('09:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1002, 'Project', TO_TIMESTAMP('10:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1003, 'Coding', TO_TIMESTAMP('11:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1004, 'Debugging', TO_TIMESTAMP('12:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1005, 'Web Design', TO_TIMESTAMP('14:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1006, 'AI Workshop', TO_TIMESTAMP('15:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1007, 'Cyber Talk', TO_TIMESTAMP('16:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1008, 'Design Expo', TO_TIMESTAMP('17:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1009, 'Tech Fest', TO_TIMESTAMP('18:00:00', 'HH24:MI:SS'));
+1 row created.
+SQL> INSERT INTO event VALUES (1010, 'Startup Meet', TO_TIMESTAMP('19:00:00', 'HH24:MI:SS'));
+1 row created.
+
+CURRENT DATE
+SQL> SELECT
+  2    eid,
+  3    ename,
+  4    TO_CHAR(start_time, 'HH24:MI:SS') AS start_time,
+  5    TO_CHAR(start_time + INTERVAL '1' HOUR, 'HH24:MI:SS') AS end_time,
+  6    (INTERVAL '1' HOUR) AS duration
+  7  FROM event;
+
+EID            ENAME       START_TI    END_TIME     DURATION
+---------- -----------------  -------------  ---------------  --------------------
+1001  Paper Presentation   09:00:00   10:00:00    +00 01:00:00
+1002  Project                     10:00:00    11:00:00    +00 01:00:00
+1003 Coding                      11:00:00     12:00:00    +00 01:00:00
+
+EID    ENAME         START_TI    END_TIME   DURATION
+-------  -------------  ---------------- ------------------ ---------------------
+1004   Debugging        12:00:00       13:00:00    +00 01:00:00
+1005   Web Design      14:00:00       15:00:00    +00 01:00:00
+1006   AI Workshop     15:00:00      16:00:00     +00 01:00:00
+
+EID    ENAME         START_TI    END_TIME   DURATION
+-------  -------------  ---------------- ------------------ ---------------------
+1007    Cyber Talk       16:00:00       17:00:00    +00 01:00:00
+1008    Design Expo    17:00:00       18:00:00    +00 01:00:00
+ 1009   Tech Fest          18:00:00       19:00:00    +00 01:00:00
+
+ EID    ENAME         START_TI    END_TIME   DURATION
+-------  -------------  ---------------- ------------------ ---------------------
+ 1010   Startup Meet        9:00:00        20:00:0      +00 01:00:00
+ 1001  Paper Presentation 09:00:00    10:00:00     +00 01:00:00
+1002    Project                     10:00:00 11:00:00         +00 01:00:00
+12 rows selected.
+
+SQL> SELECT eid, ename, TO_CHAR(start_time, 'HH24:MI:SS') AS start_time
+  2  FROM event
+  3  WHERE EXTRACT(HOUR FROM start_time) < 12;
+       EID ENAME                START_TI
+---------- -------------------- --------
+      1001 Paper Presentation   09:00:00
+      1002 Project              10:00:00
+      1003 Coding               11:00:00
+      1001 Paper Presentation   09:00:00
+      1002 Project              10:00:00
+      1003 Coding               11:00:00
+6 rows selected.
+
+ADDING DATE
+SQL> SELECT e1.eid, e1.ename, e1.start_time,
+  2         e2.eid AS duplicate_eid, e2.ename AS duplicate_ename, e2.start_time AS duplicate_time
+  3  FROM event e1
+  4  JOIN event e2 ON e1.start_time = e2.start_time AND e1.eid < e2.eid;
+no rows selected
+
+EMPLOYEES HIRED ON ALTERNATE DAYS
+SQL> SELECT eid, ename, TO_CHAR(start_time, 'HH24:MI:SS') AS start_time
+  2  FROM event
+  3  ORDER BY start_time DESC;
+
+       EID ENAME                START_TI
+---------- -------------------- --------
+      1010 Startup Meet         19:00:00
+      1010 Startup Meet         19:00:00
+      1009 Tech Fest            18:00:00
+      1009 Tech Fest            18:00:00
+      1008 Design Expo          17:00:00
+      1008 Design Expo          17:00:00
+      1007 Cyber Talk           16:00:00
+      1007 Cyber Talk           16:00:00
+      1006 AI Workshop          15:00:00
+      1006 AI Workshop          15:00:00
+      1005 Web Design           14:00:00
+      1005 Web Design           14:00:00
+12 rows selected.
+
+EXTRACT
+SQL> SELECT COUNT(*) AS afternoon_events
+  2  FROM event
+  3  WHERE EXTRACT(HOUR FROM start_time) BETWEEN 12 AND 17;
+AFTERNOON_EVENTS
+----------------
+  10
+
+ADDING END TIME TO THE TABLE EVENT
+SQL> SELECT
+  2    eid,
+  3    ename,
+  4    TO_CHAR(start_time, 'HH:MI:SS AM') AS start_time,
+  5    TO_CHAR(start_time + INTERVAL '1' HOUR, 'HH:MI:SS AM') AS end_time
+  6  FROM event;
+
+       EID ENAME                START_TIME  END_TIME
+---------- -------------------- ----------- -----------
+      1001 Paper Presentation   09:00:00 AM 10:00:00 AM
+      1002 Project              10:00:00 AM 11:00:00 AM
+      1003 Coding               11:00:00 AM 12:00:00 PM
+      1004 Debugging            12:00:00 PM 01:00:00 PM
+      1005 Web Design           02:00:00 PM 03:00:00 PM
+      1006 AI Workshop          03:00:00 PM 04:00:00 PM
+      1007 Cyber Talk           04:00:00 PM 05:00:00 PM
+      1008 Design Expo          05:00:00 PM 06:00:00 PM
+      1009 Tech Fest            06:00:00 PM 07:00:00 PM
+      1010 Startup Meet         07:00:00 PM 08:00:00 PM
+      1001 Paper Presentation   09:00:00 AM 10:00:00 AM
+
+       EID ENAME                START_TIME  END_TIME
+---------- -------------------- ----------- -----------
+      1002 Project              10:00:00 AM 11:00:00 AM
+      1003 Coding              11:00:00 AM 12:00:00 PM
+      1004 Debugging        12:00:00 PM 01:00:00 PM
+      1005 Web Design        02:00:00 PM 03:00:00 PM
+      1006 AI Workshop      03:00:00 PM 04:00:00 PM
+      1007 Cyber Talk          04:00:00 PM 05:00:00 PM
+      1008 Design Expo       05:00:00 PM 06:00:00 PM
+      1009 Tech Fest            06:00:00 PM 07:00:00 PM
+      1010 Startup Meet       07:00:00 PM 08:00:00 PM
+12 rows selected.
+
+TO VIEW THE TABLE
+SQL> SELECT eid, ename, TO_CHAR(start_time, 'HH24:MI:SS') AS start_time
+  2  FROM event
+  3  WHERE EXTRACT(HOUR FROM start_time) >= 15;
+
+       EID ENAME                START_TI
+---------- -------------------- --------
+      1006 AI Workshop       15:00:00
+      1007 Cyber Talk          16:00:00
+      1008 Design Expo       17:00:00
+      1009 Tech Fest            18:00:00
+      1010 Startup Meet       19:00:00
+      1006 AI Workshop       15:00:00
+      1007 Cyber Talk          16:00:00
+      1008 Design Expo       17:00:00
+      1009 Tech Fest            18:00:00
+      1010 Startup Meet       19:00:00
+10 rows selected.
+
+RESULT 
+The sql order by date and time operations are performed. 
