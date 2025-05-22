@@ -1,0 +1,268 @@
+Ex.No.9	STRING FUNCTIONS
+AIM
+
+To perform sql operations by using string functions.
+
+
+CREATING A TABLES
+
+SQL> CREATE TABLE student3 (
+  2      sid VARCHAR2(10),
+  3      sname VARCHAR2(20),
+  4      scity VARCHAR2(20)
+  5  );
+SQL> CREATE TABLE dept (
+  2      dname VARCHAR2(10),
+  3      fname VARCHAR2(20),
+  4      clg VARCHAR2(20),
+  5      mail VARCHAR2(50)
+  6  );
+Table created.
+
+INSERTING VALUES INTO TABLE
+
+SQL> INSERT INTO student3 VALUES ('cse01', 'NILA', 'Erode');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('it01', 'Anu', 'Chennai');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('ece01', 'Geetha', 'Salem');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('eee01', 'Yazhini', 'Trichy');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('mech01', 'JULIE', 'Erode');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('civil01', 'Harshini', 'Coimbatore');
+1 row created.
+SQL> INSERT INTO student3 VALUES ('eie01', 'Sri', 'Madurai');
+1 row created.
+SQL> INSERT INTO dept VALUES ('IT', 'NILA', 'KEC', 'NILA@gmail.com');
+1 row created.
+SQL> INSERT INTO dept VALUES ('CSE', 'Anu', 'KCT', 'anu@yahoo.com');
+1 row created.
+SQL> INSERT INTO dept VALUES ('ECE', 'Geetha', 'Bannari', 'geetha@kongu.ac.in');
+1 row created.
+SQL> INSERT INTO dept VALUES ('EEE', 'Yazhini', 'REC', 'yazhini@kongu.ac.in');
+1 row created.
+SQL> INSERT INTO dept VALUES ('MECH', 'JULIE', 'GCT', 'JULIE@kongu.ac.in');
+1 row created.
+SQL> INSERT INTO dept VALUES ('CIVIL', 'Harshini', 'KEC', 'harshini@kongu.ac.in');
+1 row created.
+SQL> INSERT INTO dept VALUES ('IT', 'Sri', 'PSG', NULL);
+1 row created.
+ASCII(CHR):
+STRING OPERATIONS USING DUAL TABLE:
+ASCII(CHR):
+To find the ascii value of a character:
+SQL> select ascii('a') as ascii_value from dual;
+ASCII_VALUE
+-----------
+97
+VALUE(CHR):
+To find the ascii character of a value:
+SQL> select chr(65) as character from dual;
+CHARACTER
+----------
+A
+CONCAT:
+
+SQL> SELECT sname || ' lives in ' || scity AS student_details FROM student3;
+STUDENT_DETAILS
+--------------------------------------------------
+NILA lives in Erode
+Anu lives in Chennai
+Geetha lives in Salem
+Yazhini lives in Trichy
+JULIE lives in Erode
+Harshini lives in Coimbatore
+Sri lives in Madurai
+7 rows selected.
+
+UPPERCASE & LOWER CASE::
+SQL> SELECT UPPER(sname) AS upper_name, LOWER(sname) AS lower_name FROM student3;
+UPPER_NAME     LOWER_NAME
+-------------------- --------------------
+NILA              nila
+ANU                  anu
+GEETHA           geetha
+YAZHINI                    yazhini
+JULIE                julie
+HARSHINI                 harshini
+SRI                     sri
+
+7 rows selected.
+LENGTH(STR):
+
+SQL> SELECT sname, LENGTH(sname) AS name_length FROM student3;
+SNAME                NAME_LENGTH
+-------------------- -----------
+NILA                      7
+Anu                           3
+Geetha                      6
+Yazhini                            3
+JULIE                       5
+Harshini                          4
+Sri                            3
+7 rows selected.
+
+REPLACE(STR):
+SQL> SELECT REPLACE(sname, 'NILA', 'NILA Priya') AS replaced_name FROM student3;
+
+REPLACED_NAME
+--------------------------------------------------------------------------------
+NILA Priya
+Anu
+Geetha
+Yazhini
+JULIE
+Harshini
+Sri
+7 rows selected.
+
+SUBSTR():
+SQL> SELECT SUBSTR(sname, 1, 3) AS short_name FROM student3;
+SHO
+---
+Myt
+Anu
+Gee
+Yazhini
+Swa
+Har
+Sri
+7 rows selected.
+
+RPAD():
+SQL> SELECT TRIM('  NILA  ') AS trimmed FROM dual;
+TRIMMED
+-------
+NILA
+
+LTRIM:
+SQL> SELECT LTRIM('  NILA') AS ltrimmed FROM dual;
+LTRIMME
+-------
+NILA
+
+RTRIM:
+SQL> SELECT RTRIM('NILA  ') AS rtrimmed FROM dual;
+RTRIMME
+-------
+NILA
+LEFTPAD:
+SQL> SELECT LPAD(sname, 10, '') AS left_pad, RPAD(sname, 10, '') AS right_pad FROM student3;
+LEFT_PAD   RIGHT_PAD
+---------- ----------
+**NILA NILA**
+******Anu Anu******
+***Geetha Geetha***
+******Yazhini Yazhini******
+****JULIE JULIE****
+*****Harshini Harshini*****
+******Sri Sri******
+7 rows selected.
+
+RIGHTPAD:
+SQL> SELECT LPAD(sname, 10, '') AS left_pad, RPAD(sname, 10, '') AS right_pad FROM student3;
+LEFT_PAD   RIGHT_PAD
+---------- ----------
+**NILA NILA**
+******Anu Anu******
+***Geetha Geetha***
+******Yazhini Yazhini******
+****JULIE JULIE****
+*****Harshini Harshini*****
+******Sri Sri******
+7 rows selected.
+
+REVERSE:
+SQL> SELECT REVERSE(sname) AS reversed_name FROM student3;
+
+REVERSED_NAME
+--------------------
+ilihtyM
+unA
+ahteeG
+jaR
+itawS
+iraH
+irS
+7 rows selected.
+
+EXTRACTING THE DOMAIN OF EMAIL:
+SQL> SELECT SUBSTR(mail, INSTR(mail, '@') + 1) AS email_domain FROM dept WHERE mail IS NOT NULL;
+EMAIL_DOMAIN
+--------------------------------------------------
+gmail.com
+yahoo.com
+kongu.ac.in
+kongu.ac.in
+kongu.ac.in
+kongu.ac.in
+6 rows selected.
+
+CHANGING THE DOMAIN NAME:
+SQL> SELECT REPLACE(mail, SUBSTR(mail, INSTR(mail, '@') + 1), 'kongu.edu') AS updated_mail FROM dept WHERE mail IS NOT NULL;
+UPDATED_MAIL
+--------------------------------------------------------------------------------
+NILA@kongu.edu
+anu@kongu.edu
+geetha@kongu.edu
+yazhini@kongu.edu
+JULIE@kongu.edu
+harshini@kongu.edu
+6 rows selected.
+
+SEARCHING OPERATIONS:
+LIKE KEYWORD:
+SQL> SELECT fname FROM dept WHERE fname LIKE 'G%';
+FNAME
+--------------------
+Geetha
+SQL> -- Names containing 'a' in second position
+SQL> SELECT fname FROM dept WHERE fname LIKE '_a%';
+
+FNAME
+--------------------
+Yazhini
+Harshini
+
+SQL>
+SQL> -- Names not starting with 'A'
+SQL> SELECT fname FROM dept WHERE fname NOT LIKE 'A%';
+
+FNAME
+--------------------
+NILA
+Geetha
+Yazhini
+JULIE
+Harshini
+Sri
+6 rows selected.
+
+NULL:
+SQL> SELECT * FROM dept WHERE mail IS NULL;
+DNAME      FNAME                CLG
+--------------------------------------------------
+IT         Sri                  PSG
+
+NOT NULL:
+SQL> SELECT * FROM dept WHERE mail IS NOT NULL;
+
+DNAME      FNAME                CLG          MAIL
+-----------------------------------------------------------------------
+IT         NILA              KEC            NILA@gmail.com
+CSE        Anu                  KCT  	anu@yahoo.com
+ECE      Geetha           Bannari	geetha@kongu.ac.in
+
+DNAME      FNAME                CLG               MAIL
+----------------------------------------------------------------------------
+EEE             Yazhini                 REC             yazhini@kongu.ac.in
+MECH       JULIE              GCT            JULIE@kongu.ac.in
+CIVIL        Harshini                  KEC           harshini@kongu.ac.in
+
+6 rows selected.
+
+
+RESULT
+Various string functions in SQL were successfully executed LENGTH, SUBSTR, TRIM, REPLACE, and pattern matching were demonstrated. The results validated the correct functioning of each string manipulation technique.
