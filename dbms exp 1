@@ -1,0 +1,388 @@
+Ex.No.1 DATA DEFINITION LANGUAGE, COMMANDS,INTEGRITY CONSTRAINTS
+
+CREATING A TABLE
+
+SQL&gt; create table Student_Deatils(id number(8) primary key,
+2 name char(20) not null,
+3 age number(3) ,
+4 email varchar(30),
+5 phone_number number(10));
+Table created.
+INSERTING VALUES INTO TABLE
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231101
+Enter value for name: Kalai
+Enter value for age: 18
+Enter value for email: kalaim.23it@kongu.edu
+Enter value for phone_number: 9098765654
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils values(231101,&#39;Kalai&#39;,18,&#39;kalaim.23it@kongu.edu&#39;,
+9098765654)
+1 row created.
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231102
+Enter value for name: Elakiya
+Enter value for age: 19
+Enter value for email: elakiyap.23it@kongu.edu
+Enter value for phone_number: 9876545455
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils
+values(231102,&#39;Elakiya&#39;,19,&#39;elakiyap.23it@kongu.edu&#39;, 9876545455)
+1 row created.
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231103
+Enter value for name: Dhivyaa
+Enter value for age: 20
+Enter value for email: dhivyaam.23it@kongu.edu
+Enter value for phone_number: 8654322122
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+
+new 1: insert into Student_Deatils
+values(231103,&#39;Dhivyaa&#39;,20,&#39;dhivyaam.23it@kongu.edu&#39;, 8654322122)
+1 row created.
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231104
+Enter value for name: Pragathi
+Enter value for age: 21
+Enter value for email: pragathi.23it@kongu.edu
+Enter value for phone_number: 9087645345
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils values(231104,&#39;Pragathi&#39;,21,&#39;pragathi.23it@kongu.edu&#39;,
+9087645345)
+1 row created.
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231105
+Enter value for name: Kanika
+Enter value for age: 21
+Enter value for email: kanika@kongu.edu
+Enter value for phone_number: 9876543210
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils values(231105,&#39;Kanika&#39;,21,&#39;kanika@kongu.edu&#39;,
+9876543210)
+1 row created.
+DESCRIBE TABLE
+SQL&gt; desc Student_Deatils;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+AGE NUMBER(3)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+VIEW TABLE
+
+SQL&gt; select * from Student_Deatils;
+ID NAME AGE EMAIL PHONE_NUMBER
+-----------------------------------------------------------------------------------------------
+231101 Kalai 18 kalaim.23it@kongu.edu 9098765654
+
+231102 Elakiya 19 elakiyap.23it@kongu.edu 9876545455
+231103 Dhivyaa 20 dhivyaam.23it@kongu.edu 8654322122
+
+ID NAME AGE EMAIL PHONE_NUMBER
+----------------------------------------------------------------------------------------------
+231104 Pragathi 21 pragathi.23it@kongu.edu 9087645345
+231105 Kanika 21 kanika@kongu.edu 9876543210
+
+MODIFY TABLE
+
+SQL&gt; alter table Student_Deatils add(gender char(10) default &#39;F&#39;);
+Table altered.
+SQL&gt; desc Student_Deatils;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+AGE NUMBER(3)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+GENDER CHAR(10)
+SQL&gt; select * from Student_Deatils;
+ID NAME AGE EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231101 Kalai 18 kalaim.23it@kongu.edu 9098765654 F
+231102 Elakiya 19 elakiyap.23it@kongu.edu 9876545455 F
+231103 Dhivyaa 20 dhivyaam.23it@kongu.edu 8654322122 F
+
+ID NAME AGE EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231104 Pragathi 21 pragathi.23it@kongu.edu 9087645345 F
+231105 Kanika 21 kanika@kongu.edu 9876543210 F
+DROP TABLE
+
+SQL&gt; alter table Student_Deatils drop column age;
+Table altered.
+SQL&gt; desc Student_Deatils;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+GENDER CHAR(10)
+SQL&gt; select * from Student_Deatils;
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231101 Kalai kalaim.23it@kongu.edu 9098765654 F
+231102 Elakiya elakiyap.23it@kongu.edu 9876545455 F
+231103 Dhivyaa dhivyaam.23it@kongu.edu 8654322122 F
+
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231104 Pragathi pragathi.23it@kongu.edu 9087645345 F
+231105 Kanika kanika@kongu.edu 9876543210 F
+
+MODIFYING EXISTING COLUMN SIZE
+
+SQL&gt; alter table Student_Deatils modify(name char(25));
+Table altered.
+SQL&gt; desc Student_Deatils;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(25)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+GENDER CHAR(10)
+
+SQL&gt; select * from Student_Deatils;
+
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231101 Kalai kalaim.23it@kongu.edu 9098765654 F
+231102 Elakiya elakiyap.23it@kongu.edu 9876545455 F
+231103 Dhivyaa dhivyaam.23it@kongu.edu 8654322122 F
+
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231104 Pragathi pragathi.23it@kongu.edu 9087645345 F
+231105 Kanika kanika@kongu.edu 9876543210 F
+SQL&gt;
+RENAMING TABLE
+SQL&gt; rename Student_Deatils to Student_Data;
+Table renamed.
+SQL&gt; desc Student_Deatils;
+ERROR:
+ORA-04043: object Student_Deatils does not exist
+
+SQL&gt; desc Student_Data;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(25)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+GENDER CHAR(10)
+SQL&gt; select * from Student_Data;
+
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231101 Kalai kalaim.23it@kongu.edu 9098765654 F
+231102 Elakiya elakiyap.23it@kongu.edu 9876545455 F
+
+231103 Dhivyaa dhivyaam.23it@kongu.edu 8654322122 F
+
+ID NAME EMAIL PHONE_NUMBER GENDER
+----------------------------------------------------------------------------------------------------------------
+231104 Pragathi pragathi.23it@kongu.edu 9087645345 F
+231105 Kanika kanika@kongu.edu 9876543210 F
+TRUNCATING TABLE
+
+SQL&gt; truncate table Student_Data;
+Table truncated.
+SQL&gt; desc Student_Data;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(25)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+GENDER CHAR(10)
+SQL&gt; select * from Student_Data;
+no rows selected
+DROP TABLE
+
+SQL&gt; drop table Student_Data;
+Table dropped.
+SQL&gt; desc Student_Data;
+ERROR:
+ORA-04043: object Student_Data does not exist
+
+SQL&gt; select * from Student_Data;
+select * from Student_Data
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+NOT NULL CONSTRAINT TABLE
+
+SQL&gt; CREATE TABLE Student_Deatils (
+2 id NUMBER(8) PRIMARY KEY,
+3 name CHAR(20) NOT NULL, age NUMBER(3),
+4 email VARCHAR(30),
+5 phone_number NUMBER(10)
+6 );
+Table created.
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231101
+Enter value for name:
+Enter value for age: 7
+Enter value for email: kalaim.23it@kongu.edu
+Enter value for phone_number: 9876543210
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils values(231101,&#39;&#39;,7,&#39;kalaim.23it@kongu.edu&#39;,
+9876543210)
+insert into Student_Deatils values(231101,&#39;&#39;,7,&#39;kalaim.23it@kongu.edu&#39;, 9876543210)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into (&quot;STUDENT&quot;.&quot;STUDENT_DEATILS&quot;.&quot;NAME&quot;)
+
+SQL&gt; insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number);
+Enter value for id: 231102
+Enter value for name: priya
+Enter value for age: 18
+Enter value for email: priya@kongu.edu
+Enter value for phone_number: 9807652341
+old 1: insert into Student_Deatils values(&amp;id,&#39;&amp;name&#39;,&amp;age,&#39;&amp;email&#39;, &amp;phone_number)
+new 1: insert into Student_Deatils values(231102,&#39;priya&#39;,18,&#39;priya@kongu.edu&#39;,
+9807652341)
+1 row created.
+SQL&gt; desc Student_Deatils;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+AGE NUMBER(3)
+EMAIL VARCHAR2(30)
+PHONE_NUMBER NUMBER(10)
+SQL&gt; select * from Student_Deatils;
+
+ID NAME AGE EMAIL PHONE_NUMBER
+-----------------------------------------------------------------------------------------------------------
+231102 priya 18 priya@kongu.edu 9807652341
+DEFAULT CONSTRAINT
+SQL&gt; CREATE TABLE CUSTOMERS(
+2 id NUMBER(8) PRIMARY KEY,
+3 name CHAR(20) NOT NULL,
+4 age NUMBER(3),
+5 address VARCHAR(25),
+6 salary DECIMAL(18, 2) DEFAULT 5000.00,
+PRIMARY KEY (id)
+);
+Table created.
+SQL&gt; DESC CUSTOMERS;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+AGE NUMBER(3)
+ADDRESS VARCHAR2(30)
+SALARY DECIMAL(18, 2)
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS)
+VALUES (1, &#39;Kalai&#39;, 25, &#39;Chennai&#39;);
+1 row inserted.
+SQL&gt; SELECT * FROM CUSTOMERS;
+ID NAME AGE ADDRESS SALARY
+--------------------------------------------------------------
+1 Kalai 25 Chennai 5000.00
+UNIQUE CONSTRAINT
+SQL&gt; CREATE TABLE CUSTOMERS(
+2 id NUMBER(8) PRIMARY KEY,
+3 name VARCHAR(20) NOT NULL,
+4 phone_number NUMBER(10) NOT NULL UNIQUE,
+5 address VARCHAR(25),
+6 salary DECIMAL(18, 2));
+Table created.
+
+SQL&gt; DESC CUSTOMERS;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL VARCHAR(20)
+PHONE NOT NULL NUMBER(3)
+ADDRESS VARCHAR2(30)
+SALARY DECIMAL(18, 2)
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, PHONE, ADDRESS)
+VALUES (1, &#39;MYTHU&#39;, 9876543210, &#39;MUTHUR&#39;);
+1 row inserted.
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, PHONE, ADDRESS)
+VALUES (2, &#39;Swati&#39;, 9876543210, &#39;kangeyam&#39;);
+ERROR at line 1:
+ORA-00001: unique constraint violated
+PRIMARY KEY CONSTRAINT
+SQL&gt; CREATE TABLE CUSTOMERS(
+2 id NUMBER(8) PRIMARY KEY,
+3 name CHAR(20) NOT NULL,
+4 age NUMBER(3),
+5 address VARCHAR(25),
+6 salary DECIMAL(18, 2),
+PRIMARY KEY (id)
+);
+Table created.
+SQL&gt; DESC CUSTOMERS;
+Name Null? Type
+----------------------------------------- -------- ----------------------------
+ID NOT NULL NUMBER(8)
+NAME NOT NULL CHAR(20)
+AGE NUMBER(3)
+ADDRESS VARCHAR2(30)
+SALARY DECIMAL(18, 2)
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS) VALUES (1,
+&#39;Dhivyaa&#39;, 30, &#39;Hyderabad&#39;);
+1 row inserted.
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS) VALUES (1,
+&#39;Pragathi&#39;, 28, &#39;Kolkata&#39;);
+ERROR at line 1: ORA-00001: unique constraint violated
+
+FOREIGN KEY CONSTRAINT
+CUSTOMERS table
+SQL&gt; CREATE TABLE CUSTOMERS(
+2 id NUMBER(8) PRIMARY KEY,
+3 name CHAR(20) NOT NULL,
+4 age NUMBER(3),
+5 address VARCHAR(25),
+6 salary DECIMAL(18, 2),
+7 PRIMARY KEY (id)
+);
+Table created.
+ORDERS table
+SQL&gt; CREATE TABLE ORDERS (
+2 id NUMBER NOT NULL,
+3 date DATE,
+4 customer_id NUMBER references customers(id),
+5 amount DECIMAL,
+7 PRIMARY KEY (id)
+);
+Table created.
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS)
+VALUES (1, &#39;Kanika&#39;, 26, &#39;Delhi&#39;);
+1 row inserted.
+SQL&gt; INSERT INTO ORDERS (ID, DATE, CUSTOMER_ID, AMOUNT)
+VALUES (1, SYSDATE, 1, 1200.00);
+1 row inserted.
+SQL&gt; INSERT INTO ORDERS (ID, DATE, CUSTOMER_ID, AMOUNT)
+VALUES (2, SYSDATE, 2, 1500.00);
+ERROR at line 1:
+ORA-02291: integrity constraint violated - parent key not found
+CHECK CONSTRAINT
+SQL&gt; CREATE TABLE CUSTOMERS(
+2 id NUMBER(8) PRIMARY KEY,
+3 name CHAR(20) NOT NULL,
+4 age NUMBER(3) NOT NULL CHECK (AGE &gt;= 18),
+5 address VARCHAR(25),
+6 salary DECIMAL(18, 2),
+
+PRIMARY KEY (id)
+);
+Table created.
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS) VALUES (1, &#39;Kalai&#39;,
+17, &#39;Erode&#39;);
+ERROR at line 1: ORA-02290: check constraint violated
+SQL&gt; INSERT INTO CUSTOMERS (ID, NAME, AGE, ADDRESS) VALUES (1,
+&#39;Elakiya&#39;, 21, &#39;Salem&#39;);
+1 row inserted.
+DROPPING CONSTRAINTS
+SQL&gt; ALTER TABLE CUSTOMERS DROP CONSTRAINT CUSTOMERS_PK;
+Table altered.
+(OR)
+SQL&gt; ALTER TABLE CUSTOMERS DROP PRIMARY KEY;
