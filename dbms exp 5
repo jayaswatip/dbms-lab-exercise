@@ -1,0 +1,135 @@
+Ex.No.5	VIEWS AND INDEX
+AIM
+
+To implement Views and Indexing in DBMS for efficient data retrieval.
+
+CREATING A TABLES
+
+SQL> CREATE TABLE STUDENT_DETAILS (
+        student_id INT PRIMARY KEY,
+        name VARCHAR(50),
+        age INT,
+        dept VARCHAR(50),
+        faculty_id INT  );
+
+Table created.
+
+SQL> CREATE TABLE FACULTY_DETAILS (
+        faculty_id INT PRIMARY KEY,
+        faculty_name VARCHAR(50),
+        dept VARCHAR(50)
+    );
+
+Table created.
+
+INSERTING VALUES INTO TABLE
+
+
+SQL> INSERT INTO FACULTY_DETAILS VALUES     (101, 'Dr. Ravi', 'IT');
+
+1 row created.
+
+SQL> INSERT INTO FACULTY_DETAILS VALUES(102, 'Dr. Priya', 'CSE');
+
+1 row created.
+
+SQL> INSERT INTO FACULTY_DETAILS VALUES(103, 'Dr.Kavi ', 'ECE');
+
+1 row created.
+
+SQL> INSERT INTO FACULTY_DETAILS VALUES (104, 'Dr. Anand', 'EEE');
+
+1 row created.
+
+SQL> INSERT INTO STUDENT_DETAILS VALUES (1, 'Swati', 20, 'IT', 101);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT_DETAILS VALUES (2, 'Anu', 21, 'CSE', 102);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT_DETAILS VALUES  (3, 'Mythili', 22, 'ECE', 103);
+
+1 row created.
+
+SQL> ALTER TABLE STUDENT_DETAILS ADD email VARCHAR(100);
+
+Table altered.
+
+SQL> ALTER TABLE FACULTY_DETAILS ADD experience INT;
+
+Table altered.
+
+SQL> ALTER TABLE FACULTY_DETAILS MODIFY faculty_name VARCHAR(100);
+
+Table altered.
+
+CREATING A VIEW
+
+
+SQL> CREATE VIEW STUDENT_VIEW AS
+    SELECT student_id, name, age, dept, faculty_id
+    FROM STUDENT_DETAILS
+    WHERE dept = 'IT';
+
+View created.
+
+SQL> SELECT * FROM STUDENT_VIEW;
+
+STUDENT_ID 	NAME         AGE         DEPT              FACULTY_ID
+----------------------------------------------------------------------------------------------------------------
+   	1    		Swati           20	    IT                        101
+
+
+SQL> CREATE VIEW FACULTY_STUDENT_VIEW AS
+    SELECT S.student_id, S.name, S.age, S.dept, F.faculty_name
+    FROM STUDENT_DETAILS S
+    JOIN FACULTY_DETAILS F ON S.faculty_id = F.faculty_id;
+
+View created.
+
+SQL> SELECT * FROM FACULTY_STUDENT_VIEW;
+
+STUDENT_ID 	NAME         AGE         DEPT              FACULTY_ NAME
+----------------------------------------------------------------------------------------------------------------
+
+       1	                        Swati            20              IT                    Dr. Ravi
+
+       2                           Anu              21            CSE                  Dr. Priya
+
+       3                           Mythili         22            ECE                  Dr. Kavi
+
+
+SQL> INSERT INTO FACULTY_STUDENT_VIEW VALUES (8, 'John', 24, 'MECH', 'Dr. Sandhiya');
+
+INSERT INTO FACULTY_STUDENT_VIEW VALUES (8, 'John', 24, 'MECH', 'Dr. Sandhiya')
+*
+ERROR at line 1:
+ORA-01776: cannot modify more than one base table through a join view
+
+
+SQL> DROP VIEW STUDENT_VIEW;
+
+View dropped.
+
+SQL> DROP VIEW FACULTY_STUDENT_VIEW;
+
+View dropped.
+
+CREATING A INDEX
+
+SQL> create index idx_faculty_id on student_details(faculty_id);
+Index created.
+
+SQL> CREATE INDEX idx_dept_faculty ON STUDENT_DETAILS (dept, faculty_id);
+Index created.
+
+DROPPING A INDEX
+
+SQL> drop index idx_dept_faculty;
+Index dropped.
+
+
+RESULT
+The successful creation of Views and Indexes has significantly improved query performance by optimizing data retrieval and reducing execution time.
