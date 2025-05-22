@@ -1,0 +1,189 @@
+Ex.No.2	DATA MANIPULATION LANGUAGE, DATA CONTROL LANGUAGE COMMANDS AND TCL COMMANDS
+
+MANIPULATION LANGUAGE (DML)
+
+1.INSERTING VALUES INTO THE TABLE
+
+SQL> create table student_details(id number(6) primary key,name varchar(15),deptno number(2),maths number(2),english number(2));
+
+Table created.
+
+SQL> desc student_details
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                 NOT NULL   NUMBER(6)
+ NAME                                                 VARCHAR2(15)
+ DEPTNO                                             NUMBER(2)
+ MATHS                                              NUMBER(2)
+ ENGLISH                                            NUMBER(2)
+
+SQL> insert into student_details values(163044,'Swati',12,70,85);
+
+1 row created.
+
+SQL> insert into student_details values(163054,'Anu',13,75,88);
+
+1 row created.
+
+SQL> insert into student_details values(163064,'Geetha',12,85,90);
+
+1 row created.
+
+SQL> insert into student_details values(163074,'aruna',12,65,97);
+
+1 row created.
+
+SQL> insert into student_details values(163084,'varunaa',12,75,87);
+
+1 row created.
+SQL> select * from student_details;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163044 Swati                12         70         85
+    163054 Anu                     13         75         88
+    163064 Geetha                12         85         90
+    163074 aruna                   12         65         97
+    163084 varunaa                12         75         87
+
+2.UPDATING THE VALUES IN THE TABLE
+
+SQL> update student_details set english=90 where maths=75;
+
+2 rows updated.
+
+SQL> select * from student_details;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163044 Swati                12         70         85
+    163054 Anu                     13         75         90
+    163064 Geetha                 12         85         90
+    163074 aruna                   12         65         97
+    163084 varunaa                12         75         90
+
+
+3.SELECT:
+
+a)	Select columns from the table
+
+SQL> select id,maths from student_details;
+
+        ID      MATHS
+---------- ----------
+    163044         70
+    163054         75
+    163064         85
+    163074         65
+    163084         75
+
+b)Select rows from the table
+SQL> select * from student_details where maths>80;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163064 Geetha                  12         85         90
+
+
+c)Select entire table
+
+SQL> select * from student_details;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163044 Swati               12         70         85
+    163054 Anu                    13         75         90
+    163064 Geetha                12         85         90
+    163074 aruna                   12         65         97
+    163084 varunaa               12         75         90
+
+
+4. DELETE:
+
+SQL> delete from student_details where maths=70;
+
+1 row deleted.
+
+SQL> select * from student_details;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163054 Anu                     13         75         90
+    163064 Geetha                12         85         90
+    163074 aruna                   12         65         97
+    163084 varunaa               12         75         90
+
+ARRANGE IN ASCENDING ORDER
+
+SQL> select * from student_details order by id;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------
+    163054 Anu                     13         75         90
+    163064 Geetha                12         85         90
+    163074 aruna                   12         65         97
+    163084 varunaa               12         75         90
+
+
+ARRANGE IN DESCENDING ORDER
+
+
+SQL> select * from student_details order by id desc;
+
+        ID NAME                DEPTNO      MATHS    ENGLISH
+---------- --------------- ---------- ---------- ----------  --------------
+    163084 varunaa               12         75         90
+    163074 aruna                   12         65         97
+    163064 Geetha                12         85         90
+    163054 Anu                     13         75         90
+
+DATA CONTROL LANGUAGE (DCL):
+
+1. GRANT:
+
+a)	Grant all privileges:
+SQL> grant all on stud_details to sys;
+            Grant succeeded.
+
+b)	Grant  some privileges of stud_details:
+SQL> grant select,update,insert on stud_details to sys with grant option;
+
+Grant succeeded.
+
+
+2. REVOKE: 
+
+a)	Revoke all privileges:
+SQL> revoke all on stud_details from sys;
+            Revoke succeeded.
+
+b)	Revoke some privileges in stud_details to sys:
+SQL>revoke select,update,insert on student to sys;
+Revoke succeeded
+
+TRANSACTION CONTROL LANGUAGE(TCL):
+
+1)SAVE POINT:
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+2)ROLL BACK:
+
+SQL> roll back s1;
+
+Rollback complete.
+
+3)COMMIT :
+
+SQL> commit;
+
+Commit complete.
+
+4)SET TRANSACTION:
+
+SQL> set transaction read only;
+
+Transaction set.
